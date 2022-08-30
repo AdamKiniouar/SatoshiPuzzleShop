@@ -63,7 +63,7 @@ namespace ShopOnline.Web.Pages
             {
                 if (firstRender)
                 {
-                    await Js.InvokeVoidAsync("initPayPalButton");
+
                 }
             }
             catch (Exception)
