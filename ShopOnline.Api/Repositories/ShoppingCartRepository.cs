@@ -49,12 +49,12 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<CartItem> DeleteItem(int id)
         {
-            var item = await this.shopOnlineDbContext.CartItems.FindAsync(id);
+            var item = await shopOnlineDbContext.CartItems.FindAsync(id);
 
             if (item != null)
             {
-                this.shopOnlineDbContext.CartItems.Remove(item);
-                await this.shopOnlineDbContext.SaveChangesAsync();
+                shopOnlineDbContext.CartItems.Remove(item);
+                await shopOnlineDbContext.SaveChangesAsync();
             }
             
             return item;
