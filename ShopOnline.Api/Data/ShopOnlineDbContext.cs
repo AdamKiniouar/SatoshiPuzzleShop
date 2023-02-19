@@ -97,8 +97,8 @@ namespace ShopOnline.Api.Data
 				CategoryId = 3
 
 			});
-			//God(Very hard)
 
+			//Godlike(Very hard)
 			modelBuilder.Entity<Product>().HasData(new Product
 			{
 				Id = 8,
@@ -127,15 +127,19 @@ namespace ShopOnline.Api.Data
 			modelBuilder.Entity<User>().HasData(new User
 			{
 				Id = 1,
-				UserName = "Bob"
+				UserName = "Bob",
+                Password = "Password",
+                DbCreationDate = DateTime.Now
 
 			});
 			modelBuilder.Entity<User>().HasData(new User
 			{
 				Id = 2,
-				UserName = "Sarah"
+				UserName = "Sarah",
+                Password = "Password",
+                DbCreationDate = DateTime.Now
 
-			});
+            });
 
 			//Create Shopping Cart for Users
 			modelBuilder.Entity<Cart>().HasData(new Cart
@@ -150,31 +154,36 @@ namespace ShopOnline.Api.Data
 				UserId = 2
 
 			});
+
 			//Add Product Categories
 			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
 			{
 				Id = 1,
 				Name = "Mortal",
-				IconCSS = "fas fa-heartbeat"
+				IconCSS = "fas fa-heartbeat",
+				Level = 1
 			});
 			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
 			{
 				Id = 2,
 				Name = "Hero",
-				IconCSS = "fas fa-gavel"
-			});
+				IconCSS = "fas fa-gavel",
+                Level = 2
+            });
 			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
 			{
 				Id = 3,
 				Name = "Spartan",
-				IconCSS = "fas fa-shield"
-			});
+				IconCSS = "fas fa-shield",
+                Level = 3
+            });
 			modelBuilder.Entity<ProductCategory>().HasData(new ProductCategory
 			{
 				Id = 4,
-				Name = "God",
-				IconCSS = "fas fa-bolt"
-			});
+				Name = "Godlike",
+				IconCSS = "fas fa-bolt",
+                Level = 4
+            });
 
 
 		}

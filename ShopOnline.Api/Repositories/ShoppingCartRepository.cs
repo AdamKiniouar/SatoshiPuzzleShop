@@ -18,27 +18,27 @@ namespace ShopOnline.Api.Repositories
 
         private async Task<bool> CartItemExists(int cartId, int productId)
         {
-            return await this.shopOnlineDbContext.CartItems.AnyAsync(c => c.CartId == cartId &&
+            return await shopOnlineDbContext.CartItems.AnyAsync(c => c.CartId == cartId &&
                                                                      c.ProductId == productId);
-
         }
         public async Task<CartItem> AddItem(CartItemToAddDto cartItemToAddDto)
         {
             if (await CartItemExists(cartItemToAddDto.CartId, cartItemToAddDto.ProductId) == false)
             {
-                var item = await (from product in this.shopOnlineDbContext.Products
-                                  where product.Id == cartItemToAddDto.ProductId
-                                  select new CartItem
-                                  {
-                                      CartId = cartItemToAddDto.CartId,
-                                      ProductId = product.Id,
-                                      Qty = cartItemToAddDto.Qty
-                                  }).SingleOrDefaultAsync();
+                var item = await shopOnlineDbContext.Products
+                    .Where(p => p.Id == cartItemToAddDto.ProductId)
+                    .Select(p => new CartItem
+                    {
+                        CartId = cartItemToAddDto.CartId,
+                        ProductId = p.Id,
+                        Qty = cartItemToAddDto.Qty
+                    })
+                    .SingleOrDefaultAsync();
 
                 if (item != null)
                 {
-                    var result = await this.shopOnlineDbContext.CartItems.AddAsync(item);
-                    await this.shopOnlineDbContext.SaveChangesAsync();
+                    var result = await shopOnlineDbContext.CartItems.AddAsync(item);
+                    await shopOnlineDbContext.SaveChangesAsync();
                     return result.Entity;
                 }
             }
@@ -63,17 +63,24 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<CartItem> GetItem(int id)
         {
-            return await (from cart in this.shopOnlineDbContext.Carts
-                          join cartItem in this.shopOnlineDbContext.CartItems
-                          on cart.Id equals cartItem.CartId
-                          where cartItem.Id == id
-                          select new CartItem
-                          {
-                              Id = cartItem.Id,
-                              ProductId = cartItem.ProductId,
-                              Qty = cartItem.Qty,
-                              CartId = cartItem.CartId
-                          }).SingleOrDefaultAsync();
+            var result = await this.shopOnlineDbContext.CartItems
+                .Where(ci => ci.Id == id)
+                .Select(ci => new CartItem
+                {
+                    Id = ci.Id,
+                    ProductId = ci.ProductId,
+                    Qty = ci.Qty,
+                    CartId = ci.CartId
+                })
+                .SingleOrDefaultAsync();
+
+            if (result == null)
+            {
+                // handle the case where no matching CartItem was found
+                // e.g. throw an exception, return a default value, etc.
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<CartItem>> GetItems(int userId)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShopOnline.Api.Extensions;
 using ShopOnline.Api.Repositories.Contracts;
 using ShopOnline.Models.Dtos;
+using System.Net;
 
 namespace ShopOnline.Api.Controllers
 {
@@ -18,12 +19,11 @@ namespace ShopOnline.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
         {
             try
             {
-                var products = await this.productRepository.GetItems();
-
+                var products = await productRepository.GetProducts();
 
                 if (products == null)
                 { 
@@ -45,11 +45,11 @@ namespace ShopOnline.Api.Controllers
             }
         }
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ProductDto>> GetItem(int id)
+        public async Task<ActionResult<ProductDto>> GetProductById(int id)
         {
             try
             {
-                var product = await this.productRepository.GetItem(id);
+                var product = await productRepository.GetProductById(id);
                
                 if (product == null)
                 {
@@ -95,11 +95,11 @@ namespace ShopOnline.Api.Controllers
 
         [HttpGet]
         [Route("{categoryId}/GetItemsByCategory")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetItemsByCategory(int categoryId)
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(int categoryId)
         {
             try
             {
-                var products = await productRepository.GetItemsByCategory(categoryId);
+                var products = await productRepository.GetProductsByCategory(categoryId);
 
                 var productDtos = products.ConvertToDto();
 
@@ -110,6 +110,37 @@ namespace ShopOnline.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                                 "Error retrieving data from the database");
+            }
+        }
+
+
+        [HttpPut("{id:int}/activate")]
+        public async Task<ActionResult> ActivateProduct(int id)
+        {
+            var response = await productRepository.ActivateProductById(id);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+        [HttpPut("{id:int}/deactivate")]
+        public async Task<ActionResult> DeActivateProduct(int id)
+        {
+            var response = await productRepository.DeActivateProductById(id);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                return NoContent();
             }
         }
 

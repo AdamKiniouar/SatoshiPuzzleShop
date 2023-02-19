@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShopOnline.Api.Data;
 
@@ -11,9 +12,10 @@ using ShopOnline.Api.Data;
 namespace ShopOnline.Api.Migrations
 {
     [DbContext(typeof(ShopOnlineDbContext))]
-    partial class ShopOnlineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230219152603_AddUserInfoAndCetegoryLevel")]
+    partial class AddUserInfoAndCetegoryLevel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,12 +86,15 @@ namespace ShopOnline.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageURL")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -206,12 +211,14 @@ namespace ShopOnline.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("IconCSS")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -270,9 +277,11 @@ namespace ShopOnline.Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -283,14 +292,14 @@ namespace ShopOnline.Api.Migrations
                         new
                         {
                             Id = 1,
-                            DbCreationDate = new DateTime(2023, 2, 19, 16, 34, 43, 993, DateTimeKind.Local).AddTicks(4102),
+                            DbCreationDate = new DateTime(2023, 2, 19, 16, 26, 3, 282, DateTimeKind.Local).AddTicks(5944),
                             Password = "Password",
                             UserName = "Bob"
                         },
                         new
                         {
                             Id = 2,
-                            DbCreationDate = new DateTime(2023, 2, 19, 16, 34, 43, 993, DateTimeKind.Local).AddTicks(4177),
+                            DbCreationDate = new DateTime(2023, 2, 19, 16, 26, 3, 282, DateTimeKind.Local).AddTicks(5992),
                             Password = "Password",
                             UserName = "Sarah"
                         });
