@@ -22,17 +22,17 @@ namespace ShopOnline.Api.Repositories
         
         }
 
-        public async Task<ProductCategory> GetCategory(int id)
+        public async Task<ProductCategory> GetCategory(int categoryId)
         {
-            var category = await shopOnlineDbContext.ProductCategories.SingleOrDefaultAsync(c => c.Id == id);
+            var category = await shopOnlineDbContext.ProductCategories.SingleOrDefaultAsync(c => c.Id == categoryId);
             return category;
         }
 
-        public async Task<Product> GetProductById(int id)
+        public async Task<Product> GetProductById(int productId)
         {
             var product = await shopOnlineDbContext.Products
                                 .Include(p => p.ProductCategory)
-                                .SingleOrDefaultAsync(p => p.Id == id);
+                                .SingleOrDefaultAsync(p => p.Id == productId);
             return product;
         }
 
@@ -45,18 +45,18 @@ namespace ShopOnline.Api.Repositories
         
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategory(int id)
+        public async Task<IEnumerable<Product>> GetProductsByCategory(int categoryId)
         {
             var products = await shopOnlineDbContext.Products
                                      .Include(p => p.ProductCategory)
-                                     .Where(p => p.CategoryId == id).ToListAsync();
+                                     .Where(p => p.CategoryId == categoryId).ToListAsync();
             return products;
         }
 
-        public async Task<HttpResponseMessage> ActivateProductById(int id)
+        public async Task<HttpResponseMessage> ActivateProductById(int productId)
         {
             var product = await shopOnlineDbContext.Products
-                                     .Where(p => p.Id == id).FirstOrDefaultAsync();
+                                     .Where(p => p.Id == productId).FirstOrDefaultAsync();
 
             if (product != null)
             {
@@ -68,16 +68,16 @@ namespace ShopOnline.Api.Repositories
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound)
                 {
-                    Content = new StringContent($"Product with id {id} not found")
+                    Content = new StringContent($"Product with id {productId} not found")
                 };
             }
 
         }
 
-        public async Task<HttpResponseMessage> DeActivateProductById(int id)
+        public async Task<HttpResponseMessage> DeActivateProductById(int productId)
         {
             var product = await shopOnlineDbContext.Products
-                                     .Where(p => p.Id == id).FirstOrDefaultAsync();
+                                     .Where(p => p.Id == productId).FirstOrDefaultAsync();
 
             if (product != null)
             {
@@ -89,7 +89,7 @@ namespace ShopOnline.Api.Repositories
             {
                 return new HttpResponseMessage(HttpStatusCode.NotFound)
                 {
-                    Content = new StringContent($"Product with id {id} not found")
+                    Content = new StringContent($"Product with id {productId} not found")
                 };
             }
         }

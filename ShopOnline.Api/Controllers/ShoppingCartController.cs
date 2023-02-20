@@ -33,7 +33,7 @@ namespace ShopOnline.Api.Controllers
                     return NoContent();
                 }
                 
-                var products = await this.productRepository.GetItems();
+                var products = await this.productRepository.GetProducts();
 
                 if (products == null)
                 {
@@ -62,7 +62,7 @@ namespace ShopOnline.Api.Controllers
                 {
                     return NotFound();
                 }
-                var product = await productRepository.GetItem(cartItem.ProductId);
+                var product = await productRepository.GetProductById(cartItem.ProductId);
 
                 if (product == null)
                 {
@@ -90,7 +90,7 @@ namespace ShopOnline.Api.Controllers
                     return NoContent();
                 }
 
-                var product = await productRepository.GetItem(newCartItem.ProductId);
+                var product = await productRepository.GetProductById(newCartItem.ProductId);
 
                 if (product == null)
                 {
@@ -121,7 +121,7 @@ namespace ShopOnline.Api.Controllers
                     return NotFound();
                 }
 
-                var product = await this.productRepository.GetItem(cartItem.ProductId);
+                var product = await this.productRepository.GetProductById(cartItem.ProductId);
 
                 if (product == null)
                     return NotFound();
@@ -147,7 +147,7 @@ namespace ShopOnline.Api.Controllers
                     return NotFound();
                 }
 
-                var product = await productRepository.GetItem(cartItem.ProductId);
+                var product = await productRepository.GetProductById(cartItem.ProductId);
 
                 var cartItemDto = cartItem.ConvertToDto(product);
 

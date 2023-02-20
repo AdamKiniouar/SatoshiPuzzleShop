@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShopOnline.Api.Entities;
+using ShopOnline.Api.Extensions;
 using ShopOnline.Api.Repositories.Contracts;
 using ShopOnline.Models.Dtos;
 
@@ -18,22 +20,22 @@ namespace ShopOnline.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ProductDto>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             try
             {
-                var product = await this.productRepository.GetItem(id);
+                var user = await this.userRepository.GetUser(id);
 
-                if (product == null)
+                if (user == null)
                 {
                     return BadRequest();
                 }
                 else
                 {
 
-                    var productDto = product.ConvertToDto();
+                    var userDto = user.ConvertToDto();
 
-                    return Ok(productDto);
+                    return Ok(userDto);
                 }
 
             }
@@ -50,18 +52,18 @@ namespace ShopOnline.Api.Controllers
         {
             try
             {
-                var products = await this.productRepository.GetItems();
+                var users = await this.userRepository.GetUsers();
 
 
-                if (products == null)
+                if (users == null)
                 {
                     return NotFound();
                 }
                 else
                 {
-                    var productDtos = products.ConvertToDto();
+                    var usersDto = users.ConvertToDto();
 
-                    return Ok(productDtos);
+                    return Ok(usersDto);
                 }
 
             }
